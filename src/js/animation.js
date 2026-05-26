@@ -1,4 +1,5 @@
 //jshint esversion:6
+import { balloons } from "balloons-js";
 
 const button = document.querySelector(".btn"),
   darkroom = document.querySelector(".darkroom"),
@@ -220,6 +221,12 @@ export const animate = function () {
 
       music.loop = true;
       music.play();
+
+      try {
+        balloons();
+      } catch (err) {
+        console.warn("Balloons-js failed to launch:", err);
+      }
 
       // Calculate readTime dynamically
       let parsedTime = parseInt(
