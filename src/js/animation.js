@@ -221,22 +221,18 @@ export const animate = function () {
       music.loop = true;
       music.play();
 
-      if (!process.env.SCROLL_MSG) {
-        frames[0].style.display = "flex";
-        setTimeout(() => {
-          frames[0].classList.add("appear");
-          frames[0].style.opacity = "1";
-        }, 1500);
-        return;
-      }
+      // Calculate readTime dynamically
+      let parsedTime = parseInt(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--readTime"
+        )
+      );
 
-      //This value is stored in the --readTime css variable of root element and is calculated dynamically at build time.
-      const readTime =
-        parseInt(
-          getComputedStyle(document.documentElement).getPropertyValue(
-            "--readTime"
-          )
-        ) + 5;
+      // If no valid readTime is set (e.g. SCROLL_MSG is not set on Vercel), show the carousel for 20 seconds
+      let readTime = 20;
+      if (!isNaN(parsedTime) && parsedTime > 0) {
+        readTime = parsedTime + 5;
+      }
 
       frames[1].style.display = "flex";
 
