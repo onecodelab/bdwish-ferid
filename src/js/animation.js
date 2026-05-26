@@ -133,6 +133,28 @@ const transition = (currentScene) => {
 export const animate = function () {
   CTAtext.innerHTML = "Click the Light Bulb.";
 
+  // Mobile audio auto-unlock mechanism
+  const audios = [light, blast, door, haunt, music];
+  const unlockAudio = () => {
+    audios.forEach((audio) => {
+      if (audio) {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            audio.pause();
+            audio.currentTime = 0;
+          }).catch((err) => {
+            console.warn("Audio unlock issue:", err);
+          });
+        }
+      }
+    });
+    document.removeEventListener("click", unlockAudio);
+    document.removeEventListener("touchstart", unlockAudio);
+  };
+  document.addEventListener("click", unlockAudio);
+  document.addEventListener("touchstart", unlockAudio);
+
   readMsg(blackText);
 
   button.addEventListener("click", function () {
