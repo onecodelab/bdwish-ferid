@@ -24,7 +24,7 @@
     />
     <meta
       property="og:image"
-      content="https://telegra.ph/file/cab24ce49882fbae39a13.png"
+      content="./resources/img/picture1.webp"
     />
 
     <link
@@ -126,8 +126,17 @@
       <div class="frame frame2">
         <div class="scroll">
           <div class="text">{{^SCROLL_MSG}}</div>
+        </div>
+        <div class="carousel">
+          <div class="carousel-track">
+            <img src="./resources/img/picture1.webp" alt="pic1" class="carousel-slide active" />
+            <img src="./resources/img/picture2.webp" alt="pic2" class="carousel-slide" loading="lazy" />
+            <img src="./resources/img/picture3.webp" alt="pic3" class="carousel-slide" loading="lazy" />
+          </div>
+          <button class="carousel-btn prev">&#10094;</button>
+          <button class="carousel-btn next">&#10095;</button>
+        </div>
       </div>
-    </div>
 
     <div class="flash"></div>
 

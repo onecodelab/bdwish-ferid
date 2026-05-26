@@ -21,6 +21,74 @@ const frames = document.querySelectorAll(".frame"),
   msgWindow = document.querySelector(".scroll"), // this one has the message frame in [0] and card fram in [1]
   msg = document.querySelector(".text"); // the Message para
 
+// Carousel elements
+const slides = document.querySelectorAll(".carousel-slide"),
+      nextBtn = document.querySelector(".carousel-btn.next"),
+      prevBtn = document.querySelector(".carousel-btn.prev");
+let currentSlide = 0;
+let slideInterval;
+
+const adjustCarouselSize = (img) => {
+  const carousel = document.querySelector(".carousel");
+  if (!carousel || !img) return;
+
+  const applySize = () => {
+    const naturalWidth = img.naturalWidth;
+    const naturalHeight = img.naturalHeight;
+
+    if (naturalWidth && naturalHeight) {
+      const aspectRatio = naturalWidth / naturalHeight;
+      const isMobile = window.innerWidth <= 800;
+      const maxWPercent = isMobile ? 0.85 : 0.7;
+      const maxHPercent = isMobile ? 0.55 : 0.6;
+      
+      const maxWidth = window.innerWidth * maxWPercent;
+      const maxHeight = window.innerHeight * maxHPercent;
+      
+      let targetWidth, targetHeight;
+      
+      if (aspectRatio > (maxWidth / maxHeight)) {
+        targetWidth = maxWidth;
+        targetHeight = maxWidth / aspectRatio;
+      } else {
+        targetWidth = maxHeight * aspectRatio;
+        targetHeight = maxHeight;
+      }
+      
+      carousel.style.width = `${targetWidth}px`;
+      carousel.style.height = `${targetHeight}px`;
+    }
+  };
+
+  if (img.complete) {
+    applySize();
+  } else {
+    img.addEventListener("load", applySize);
+  }
+};
+
+const showSlide = (index) => {
+  if (!slides || slides.length === 0) return;
+  slides[currentSlide].classList.remove("active");
+  currentSlide = (index + slides.length) % slides.length;
+  slides[currentSlide].classList.add("active");
+  adjustCarouselSize(slides[currentSlide]);
+};
+
+const nextSlide = () => showSlide(currentSlide + 1);
+const prevSlide = () => showSlide(currentSlide - 1);
+
+if (nextBtn && prevBtn) {
+  nextBtn.addEventListener("click", nextSlide);
+  prevBtn.addEventListener("click", prevSlide);
+}
+
+window.addEventListener("resize", () => {
+  if (slides && slides.length > 0 && frames[1] && frames[1].style.display === "flex") {
+    adjustCarouselSize(slides[currentSlide]);
+  }
+});
+
 //Sfx files
 
 const light = document.querySelector(".switch-aud"),
@@ -154,6 +222,10 @@ export const animate = function () {
         frames[1].classList.add("appear");
         frames[1].style.opacity = "1";
         msg.classList.add("move-up");
+        if (slides && slides.length > 0) {
+          adjustCarouselSize(slides[currentSlide]);
+          slideInterval = setInterval(nextSlide, 3000);
+        }
       }, 1500);
 
       setTimeout(() => {
@@ -167,6 +239,7 @@ export const animate = function () {
       }, readTime * 1000);
 
       setTimeout(() => {
+        if (slideInterval) clearInterval(slideInterval);
         frames[1].style.display = "none";
         frames[0].style.display = "flex";
         frames[0].classList.add("appear");

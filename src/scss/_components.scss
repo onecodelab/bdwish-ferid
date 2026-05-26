@@ -155,6 +155,7 @@
 // SCROLL
 
 .scroll {
+  display: none;
   position: relative;
   overflow-y: hidden;
   height: 70%;
@@ -256,7 +257,7 @@
 .giftroom,
 .content {
   background-image: radial-gradient(transparent, rgba(0, 0, 0, 0.65)),
-    url(../resources/img/bedroom.svg);
+    url(../resources/img/bedroom1.webp);
   background-position: 70%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -353,4 +354,72 @@
   to {
     transform: translateY(0);
   }
+}
+
+// CAROUSEL
+
+.carousel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 50%;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
+  transition: width 0.5s ease, height 0.5s ease;
+}
+
+.carousel-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  border: none;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  z-index: 20;
+  transition: background 0.3s;
+  border-radius: 5px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
 }
