@@ -11,7 +11,7 @@ const {
 require("dotenv").config();
 
 // Ensure Name and Pic have fallbacks so Vercel builds do not crash
-process.env.NAME = process.env.NAME || "Friend";
+process.env.NAME = process.env.NAME || "Ferid";
 process.env.PIC = process.env.PIC || "sample-pic.jpeg";
 
 const picPath = process.env.PIC;
